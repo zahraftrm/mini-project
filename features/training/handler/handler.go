@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/zahraftrm/mini-project/app/middlewares"
+	"github.com/zahraftrm/mini-project/constants"
 	training "github.com/zahraftrm/mini-project/features/training"
 	"github.com/zahraftrm/mini-project/helper"
 
@@ -29,7 +30,7 @@ func (handler *TrainingHandler) Create(c echo.Context) error {
 	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
-	if role != "teacher"{
+	if role != constants.RolesTeacher {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
 
@@ -77,7 +78,7 @@ func (handler *TrainingHandler) GetAll(c echo.Context) error {
 	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
-	if role != "teacher" {
+	if role != constants.RolesTeacher {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
 
@@ -99,7 +100,7 @@ func (handler *TrainingHandler) GetAllByAdmin(c echo.Context) error {
 	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
-	if role != "admin" {
+	if role != constants.RolesAdmin {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
 
@@ -121,7 +122,7 @@ func (handler *TrainingHandler) GetById(c echo.Context) error {
 	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
-	if role != "teacher" {
+	if role != constants.RolesTeacher {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
 
@@ -148,7 +149,7 @@ func (handler *TrainingHandler) GetByIdTeacher(c echo.Context) error {
 	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
-	if role != "admin" {
+	if role != constants.RolesAdmin {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
 
@@ -175,7 +176,7 @@ func (handler *TrainingHandler) GetByIdTraining(c echo.Context) error {
 	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
-	if role != "admin" {
+	if role != constants.RolesAdmin {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
 
@@ -213,7 +214,7 @@ func (handler *TrainingHandler) Update(c echo.Context) error {
 	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
-	if role != "admin" {
+	if role != constants.RolesAdmin {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
 
@@ -258,14 +259,14 @@ func (handler *TrainingHandler) Delete(c echo.Context) error {
 	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
-	if role != "teacher" && role != "admin"{
+	if role != constants.RolesTeacher && role != constants.RolesAdmin {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
 
 	var err error
-	if role == "teacher" {
+	if role == constants.RolesTeacher {
 		err = handler.trainingService.Delete(idConv, idToken)
-	}else if role == "admin" {
+	}else if role == constants.RolesAdmin {
 		err = handler.trainingService.DeleteByAdmin(idConv)
 	}
 

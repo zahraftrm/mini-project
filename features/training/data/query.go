@@ -119,7 +119,7 @@ func (repo *trainingQuery) SelectByIdTraining(id int) (training.Core, error) {
 
 // Update implements teacher.TeacherDataInterface.
 func (repo *trainingQuery) Update(id int, adminid int, role string, input training.Core) (data training.Core, email string, name string, err error) {
-	fmt.Println("before", email, name, input.TeacherID, input.AdminID)
+	
 	tx := repo.db.Model(&Training{}).Where("id = ?", id).Updates(CoreToModel(input, role))
 	if tx.Error != nil {
 		return data, "", "", tx.Error
@@ -149,11 +149,8 @@ func (repo *trainingQuery) Update(id int, adminid int, role string, input traini
 	if result.Error != nil {
 		return data, "", "lol", result.Error
 	}
-
-	fmt.Println("middler", mail, nama, input.TeacherID)
 	email = mail
 	name = nama
-	fmt.Println("after", email, name)
 
 	return data, email, name, nil
 }

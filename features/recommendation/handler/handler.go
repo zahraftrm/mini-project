@@ -20,7 +20,7 @@ func NewRecommendationHandler(service service.RecommendationService) *Recommenda
     }
 }
 
-func (h *RecommendationHandler) SubmitApplication(c echo.Context) error {
+func (h *RecommendationHandler) Recommendation(c echo.Context) error {
     var requestData map[string]interface{}
     err := c.Bind(&requestData)
     if err != nil {
@@ -43,7 +43,7 @@ func (h *RecommendationHandler) SubmitApplication(c echo.Context) error {
         OpenAIKey: os.Getenv("OPENAI_API_KEY"), // Mengambil OpenAIKey dari environment
     }
 
-    answer, err := h.RecommendationUsecase.SubmitApplication(app)
+    answer, err := h.RecommendationUsecase.Recommendation(app)
     if err != nil {
         return c.JSON(http.StatusInternalServerError, "Error dalam pengajuan pendaftaran magang")
     }

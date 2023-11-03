@@ -3,9 +3,11 @@ package data
 import (
 	"time"
 
-	"github.com/zahraftrm/mini-project/features/revision"
 	training "github.com/zahraftrm/mini-project/features/training"
 
+	"github.com/zahraftrm/mini-project/constants"
+
+	"github.com/zahraftrm/mini-project/features/revision"
 	_revisionModel "github.com/zahraftrm/mini-project/features/revision/data"
 
 	dataAdmin "github.com/zahraftrm/mini-project/features/admin/data"
@@ -38,7 +40,7 @@ type Training struct {
 
 // mapping dari core ke model
 func CoreToModel(dataCore training.Core, role string) Training {
-	if role == "teacher" {
+	if role == constants.RolesTeacher {
 		return Training{
 			TeacherID:   	dataCore.TeacherID,
 			Title:        	dataCore.Title,
@@ -51,7 +53,7 @@ func CoreToModel(dataCore training.Core, role string) Training {
 			Location: 		dataCore.Location,
 			Status: 		dataCore.Status,
 		}
-	} else if role == "admin" {
+	} else if role == constants.RolesAdmin {
 		return Training{
 			TeacherID:   	dataCore.TeacherID,
 			AdminID:   		dataCore.AdminID,

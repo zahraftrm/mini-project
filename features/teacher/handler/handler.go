@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/zahraftrm/mini-project/app/middlewares"
+	"github.com/zahraftrm/mini-project/constants"
 	"github.com/zahraftrm/mini-project/features/teacher"
 	"github.com/zahraftrm/mini-project/features/teacher/service"
 	"github.com/zahraftrm/mini-project/helper"
@@ -25,7 +26,7 @@ func New(service teacher.TeacherServiceInterface) *TeacherHandler {
 
 func (handler *TeacherHandler) GetAllTeacher(c echo.Context) error {
 	_, role := middlewares.ExtractTokenUserId(c)
-	if role != "admin" {
+	if role != constants.RolesAdmin {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
 	
@@ -58,7 +59,7 @@ func (handler *TeacherHandler) CreateTeacher(c echo.Context) error {
 	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
-	if role != "admin" {
+	if role != constants.RolesAdmin {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
 	
@@ -137,16 +138,16 @@ func (handler *TeacherHandler) GetProfile(c echo.Context) error {
 	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
-	if role != "admin" && role != "teacher" {
+	if role != constants.RolesAdmin && role != constants.RolesTeacher {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
 
 	// memanggil func di repositories
 	var result teacher.Core
 	var err error
-	if role == "teacher" {
+	if role == constants.RolesTeacher {
 		result, err = handler.teacherService.GetById(idToken)
-	} else if role == "admin" {
+	} else if role == constants.RolesAdmin {
 		result, err = handler.teacherService.GetById(idConv)
 	}
 	if err != nil {
@@ -175,7 +176,7 @@ func (handler *TeacherHandler) Update(c echo.Context) error {
 	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
-	if role != "admin" && role != "teacher" {
+	if role != constants.RolesAdmin && role != constants.RolesTeacher {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
 
@@ -188,9 +189,9 @@ func (handler *TeacherHandler) Update(c echo.Context) error {
 	
 	var data teacher.Core
 	var err error
-	if role == "teacher" {
+	if role == constants.RolesTeacher{
 		data, err = handler.teacherService.Update(idToken, teacherCore)
-	} else if role == "admin" {
+	} else if role == constants.RolesAdmin {
 		data, err = handler.teacherService.Update(idConv, teacherCore)
 	}
 	if err != nil {
@@ -216,14 +217,14 @@ func (handler *TeacherHandler) Delete(c echo.Context) error {
 	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
-	if role != "admin" {
+	if role != constants.RolesAdmin {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
 
 	var err error
-	if role == "teacher" {
+	if role == constants.RolesTeacher {
 		err = handler.teacherService.Delete(idToken)
-	} else if role == "admin" {
+	} else if role == constants.RolesAdmin {
 		err = handler.teacherService.Delete(idConv)
 	}
 	if err != nil {
