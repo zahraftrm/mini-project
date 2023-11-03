@@ -44,9 +44,9 @@ func InitRouter(db *gorm.DB, e *echo.Echo) {
 	revisionService := _revisionService.New(revisionData)
 	revisionHandlerAPI := _revisionHandler.New(revisionService)
 
-	internshipUsecase := service.NewRecommendationService()
-	internshipHandler := handlers.NewRecommendationHandler(internshipUsecase)
-	e.POST("/recommendations", internshipHandler.SubmitApplication)
+	recommendationService := service.NewRecommendationService()
+	recommendationHandler := handlers.NewRecommendationHandler(recommendationService)
+	e.POST("/recommendations", recommendationHandler.Recommendation)
 
 	// endpoint admins accessed by admins
 	e.GET("/admins", adminHandlerAPI.GetAllAdmin, middlewares.JWTMiddleware())
@@ -76,7 +76,7 @@ func InitRouter(db *gorm.DB, e *echo.Echo) {
 
 	// endpoint trainings accessed by admin
 	e.GET("/admins/trainings", trainingHandlerAPI.GetAllByAdmin, middlewares.JWTMiddleware())
-	e.GET("/admins/trainings/teacher/:id", trainingHandlerAPI.GetByIdTeacher, middlewares.JWTMiddleware())
+	e.GET("/admins/teachers/:id/trainings", trainingHandlerAPI.GetByIdTeacher, middlewares.JWTMiddleware())
 	e.GET("/admins/trainings/:id", trainingHandlerAPI.GetByIdTraining, middlewares.JWTMiddleware())
 	e.PUT("/admins/trainings/:id", trainingHandlerAPI.Update, middlewares.JWTMiddleware())
 	e.DELETE("/admins/trainings/:id", trainingHandlerAPI.Delete, middlewares.JWTMiddleware())
@@ -85,9 +85,4 @@ func InitRouter(db *gorm.DB, e *echo.Echo) {
 	e.POST("/admins/revisions", revisionHandlerAPI.Create, middlewares.JWTMiddleware())
 	e.PUT("/admins/revisions/:id", revisionHandlerAPI.Update, middlewares.JWTMiddleware())
 	e.DELETE("/admins/revisions/:id", revisionHandlerAPI.Delete, middlewares.JWTMiddleware())
-
-	// endpoint recommendation training with AI 
-	// e.POST("/recommendations", func(c echo.Context) error {
-	//     return handler.RecommendTraining(c)
-	// })
 }
