@@ -4,6 +4,7 @@ import (
 	"errors"
 	"time"
 
+	"github.com/zahraftrm/mini-project/constants"
 	training "github.com/zahraftrm/mini-project/features/training"
 )
 
@@ -24,7 +25,7 @@ func RequestToCore(dataRequest TrainingRequest, role string) (training.Core, err
 		return training.Core{}, errors.New("location harus diisi jika category adalah offline")
 	}
 
-    if role == "admin" {
+    if role == constants.RolesAdmin {
         return training.Core{
             Title:       dataRequest.Title,
             Category:    dataRequest.Category,
@@ -32,7 +33,7 @@ func RequestToCore(dataRequest TrainingRequest, role string) (training.Core, err
             Cost:        dataRequest.Cost,
             Status:      dataRequest.Status,
         }, nil
-    } else if role == "teacher" {
+    } else if role == constants.RolesTeacher {
         return training.Core{
             Title:       dataRequest.Title,
             Expertise:   dataRequest.Expertise,

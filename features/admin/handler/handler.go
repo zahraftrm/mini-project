@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/zahraftrm/mini-project/app/middlewares"
+	"github.com/zahraftrm/mini-project/constants"
 	"github.com/zahraftrm/mini-project/features/admin"
 	"github.com/zahraftrm/mini-project/helper"
 
@@ -23,7 +24,7 @@ func New(service admin.AdminServiceInterface) *AdminHandler {
 
 func (handler *AdminHandler) GetAllAdmin(c echo.Context) error {
 	_, role := middlewares.ExtractTokenUserId(c)
-	if role != "admin" {
+	if role != constants.RolesAdmin {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
 	
@@ -104,7 +105,7 @@ func (handler *AdminHandler) GetProfile(c echo.Context) error {
 	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
-	if role != "admin" {
+	if role != constants.RolesAdmin {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
 
@@ -126,7 +127,7 @@ func (handler *AdminHandler) Update(c echo.Context) error {
 	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
-	if role != "admin" {
+	if role != constants.RolesAdmin {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
 
@@ -149,7 +150,7 @@ func (handler *AdminHandler) Delete(c echo.Context) error {
 	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
-	if role != "admin" {
+	if role != constants.RolesAdmin {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
 

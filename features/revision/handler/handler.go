@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/zahraftrm/mini-project/app/middlewares"
+	"github.com/zahraftrm/mini-project/constants"
 	"github.com/zahraftrm/mini-project/features/revision"
 	"github.com/zahraftrm/mini-project/helper"
 
@@ -27,7 +28,7 @@ func (handler *RevisionHandler) Create(c echo.Context) error {
 	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
-	if role != "admin" {
+	if role != constants.RolesAdmin {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
 
@@ -70,7 +71,7 @@ func (handler *RevisionHandler) Update(c echo.Context) error {
 	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
-	if role != "admin" {
+	if role != constants.RolesAdmin {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
 
@@ -102,7 +103,7 @@ func (handler *RevisionHandler) Delete(c echo.Context) error {
 	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
-	if role != "admin" {
+	if role != constants.RolesAdmin {
 		return c.JSON(http.StatusUnauthorized, helper.FailedResponse("unauthorized"))
 	}
 

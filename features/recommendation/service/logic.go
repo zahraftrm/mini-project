@@ -8,7 +8,7 @@ import (
 )
 
 type RecommendationService interface {
-    SubmitApplication(app *recommendation.Recommendation) (string, error)
+    Recommendation(app *recommendation.Recommendation) (string, error)
 }
 
 type recommendationService struct{}
@@ -17,7 +17,7 @@ func NewRecommendationService() RecommendationService {
     return &recommendationService{}
 }
 
-func (s *recommendationService) SubmitApplication(app *recommendation.Recommendation) (string, error) {
+func (s *recommendationService) Recommendation(app *recommendation.Recommendation) (string, error) {
     ctx := context.Background()
     client := openai.NewClient(app.OpenAIKey)
     model := openai.GPT3Dot5Turbo
@@ -26,22 +26,6 @@ func (s *recommendationService) SubmitApplication(app *recommendation.Recommenda
             Role:    openai.ChatMessageRoleSystem,
             Content: "Halo, saya adalah sistem untuk memberikan rekomendasi pelatihan untuk guru yang sesuai",
         },
-        // {
-        //     Role:    openai.ChatMessageRoleUser,
-        //     Content: app.Expertise,
-        // },
-        // {
-        //     Role:    openai.ChatMessageRoleUser,
-        //     Content: app.EducationLevel,
-        // },
-        // {
-        //     Role:    openai.ChatMessageRoleUser,
-        //     Content: app.Experience,
-        // },
-		// {
-        //     Role:    openai.ChatMessageRoleUser,
-        //     Content: app.Purpose,
-        // },
 		{
             Role:    openai.ChatMessageRoleUser,
             Content: app.Template,
