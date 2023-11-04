@@ -1,4 +1,4 @@
-name: Deploy App to Server
+name: Deploy Edu Trainer Hub to Server
 
 on:
   push:
